@@ -1,25 +1,30 @@
-function findAllDuplicates(nums){
-    let counter = 0;
-    let result = [];
-    let i = 0;
-    while (i < nums.length) {
-        const correctIndex = nums[i];
-        if (nums[i] < nums.length && nums[i] !== nums[correctIndex]) {
-          [nums[i], nums[correctIndex]] = [nums[correctIndex], nums[i]];
-        } else {
-          i++;
-        }
+function findDuplicate(nums) {
+  let index = 0;
+  let numsLength = nums.length;
+
+  while (index < numsLength) {
+    if (nums[index] !== index + 1) {
+      let correctIndex = nums[index] - 1;
+      if (nums[index] !== nums[correctIndex]) {
+        [nums[index], nums[correctIndex]] = [nums[correctIndex], nums[index]];
+      } else {
+        return nums[index];
+      }
+    } else {
+      index++;
     }
-    
-    for (let i = 0; i < nums.length; i++) {
-        if (nums[i] === nums[i+1]){
-            result[counter] = nums[i];
-            counter++;
-        }
-    }
-    return result;
+  }
+  return -1;
 }
 
+module.exports = findDuplicate;
 
-
-module.exports = findAllDuplicates;
+/* 
+- first use the cyclic sort to successfully sort the array
+ex: sortArray [1,3,4,2,2] => [1,2,2,3,4]
+- the critical idea to remember is that in an array that has been cyclicly sorted, 
+the value of the array at a specific index is going to be = to index + 1
+- while traversing through the array and checking if the value = index + 1, in a 
+case where this condition does not hold, a duplicate has been found
+- therefore, return nums[index]
+*/
